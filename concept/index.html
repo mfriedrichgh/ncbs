@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to NCBS</title>
+    <link href="assets/bootstrap.min.css" rel="stylesheet">
+    <meta property="og:title" content="NBS"/>
+    <meta property="og:description" content="Networked C/C++ Build System"/>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container">
+                <a class="navbar-brand" href="#">Networked CMake Build System</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="mx-auto p-2">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Project Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Links</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MyWorkingProject</td>
+                    <td><span class="badge bg-success">Done</span></td>
+                    <td></td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Project Page</a></li>
+                                <li><a class="dropdown-item" href="#">Source Code</a></li>
+                                <li><a class="dropdown-item" href="#">Binaries</a></li>
+                                <li><a class="dropdown-item" href="#">Show Logs</a></li>
+                                <li><a class="dropdown-item" href="#">Trigger Rebuild</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>MyOtherProject</td>
+                    <td><span class="badge bg-success">Done</span></td>
+                    <td></td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Project Page</a></li>
+                                <li><a class="dropdown-item" href="#">Source Code</a></li>
+                                <li><a class="dropdown-item" href="#">Binaries</a></li>
+                                <li><a class="dropdown-item" href="#">Show Logs</a></li>
+                                <li><a class="dropdown-item" href="#">Trigger Rebuild</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>TestProject</td>
+                    <td><span class="badge bg-danger">Failed</span></td>
+                    <td style="width: 25%;">
+                        <div class="alert alert-danger text-center" role="alert">
+                            Build failed. Please check the logs for more information.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Project Page</a></li>
+                                <li><a class="dropdown-item" href="#">Source Code</a></li>
+                                <li><a class="dropdown-item" href="#">Show Logs</a></li>
+                                <li><a class="dropdown-item" href="#">Trigger Rebuild</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>MyBuildingProject</td>
+                    <td><span class="badge bg-info">Build in progress</span></td>
+                    <td>26%</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Project Page</a></li>
+                                <li><a class="dropdown-item" href="#">Source Code</a></li>
+                                <li><a class="dropdown-item" href="#">Cancel Build</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <nav>
+            <ul class="pagination">
+                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+
+        <button type="button" class="btn btn-primary">Add new project</button>
+    </div>
+
+    <script src="assets/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
