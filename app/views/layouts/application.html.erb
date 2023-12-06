@@ -1,15 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <title>Ncbs</title>
+<head>
+    <title>NCBS</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-  </head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="NCBS"/>
+    <meta property="og:description" content="Networked C/C++ Build System"/>
+</head>
 
-  <body>
+<body>
+    <%= render 'layouts/navbar' %>
     <%= yield %>
-  </body>
+    <%= javascript_include_tag "bootstrap.bundle.min.js" %>
+</body>
 </html>
