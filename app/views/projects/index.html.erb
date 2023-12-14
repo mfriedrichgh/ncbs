@@ -1,45 +1,45 @@
-<div class="container">
-    <table class="table table-striped">
-        <thead>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Project Name</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @projects.each do |project| %>
+        <% if project.public == true || User.find_by_id(project.creator).email == current_user.email %>
             <tr>
-                <th scope="col">Project Name</th>
-                <th scope="col">Status</th>
-                <th scope="col">Details</th>
-                <th scope="col">Links</th>
+                <td><% if !project.public %>(Private)<% end %> <%= project.name %></td>
+                <td><%= User.find_by_id(project.creator).email %></td>
+                <td><span class="badge bg-success">Done</span></td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/projects/<%= project.id %>">Project Page</a></li>
+                            <li><a class="dropdown-item" href="<%= project.repo %>">Source Code</a></li>
+                            <li><a class="dropdown-item" href="#">Binaries</a></li>
+                            <li><a class="dropdown-item" href="#">Show Logs</a></li>
+                            <li><a class="dropdown-item" href="#">Trigger Rebuild</a></li>
+                            <li><%= link_to("Delete Repository", project_path(project), data: { turbo_method: :delete }, class: "dropdown-item") %></li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <% for i in 0..9 do %>
-                <tr>
-                    <td>Project <%= i %></td>
-                    <td><span class="badge bg-success">Done</span></td>
-                    <td style="width: 25%;">
-                        <div class="alert alert-info text-center" role="alert">Unknown Details</div>
-                    </td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Actions
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Project Page</a></li>
-                                <li><a class="dropdown-item" href="#">Source Code</a></li>
-                                <li><a class="dropdown-item" href="#">Binaries</a></li>
-                                <li><a class="dropdown-item" href="#">Show Logs</a></li>
-                                <li><a class="dropdown-item" href="#">Trigger Rebuild</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-            <% end %>
-        </tbody>
-    </table>
-    <nav>
-        <ul class="pagination">
-            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
-</div>
+        <% end %>
+        <% end %>
+    </tbody>
+</table>
+<nav>
+    <ul class="pagination">
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
+<form action="/projects/new/"> 
+    <input type="submit" class="btn btn-primary" value="Add new project"/>
+</form>

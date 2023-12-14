@@ -15,7 +15,9 @@
 
 <body>
     <%= render 'layouts/navbar' %>
+    <div class="container">
     <%= yield %>
+    </div>
     <%= javascript_include_tag "bootstrap.bundle.min.js" %>
 </body>
 </html>
