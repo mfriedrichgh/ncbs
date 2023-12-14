@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
-    resources :projects
+  get 'errors/not_found'
+  get 'errors/internal_server_error'
+
+  devise_for :users, controllers: { sessions: 'users/sessions' }
+  resources :projects
   
-    # Defines the root path route ("/")
-    root "projects#index"
-  
-    # Users
-    get "/users" => "users#index"
-    get "/:userid" => "users#show"
-    get "/:userid/:projectid" => "projects#show"
-    get "/projects" => "projects#index"
+  # Defines the root path route ("/")
+  root "projects#index"
+  # get '*path' => "errors#not_found"
+  get "/404" => "errors#not_found"
+  get "/500" => "errors#internal_server_error"
 end
