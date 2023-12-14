@@ -1,5 +1,7 @@
 class Project < ApplicationRecord
-    def new(title)
-        @title = title
-    end
+    validates :name, presence: true
+    validates :creator, presence: true
+    # validates :public, presence: true
+    validates :created, presence: true
+    validates :repo, presence: true
 end

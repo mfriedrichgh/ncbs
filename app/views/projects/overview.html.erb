@@ -1,0 +1,38 @@
+<h1>Project Overview for "<%= @project.name %>"</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Owner</th>
+            <th scope="col">Source</th>
+            <th scope="col">Visibility</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><%= User.find_by_id(@project.creator).email %></td>
+            <td><a target="_blank" rel="noopener noreferrer" href="<%= @project.repo %>"><%= @project.repo %></a></td>
+            <td><% if !@project.public %>Private<% else %>Public<% end %></td>
+            <td><span class="badge bg-success">Done</span></td>
+        </tr>
+    </tbody>
+</table>
+<h2>Build Log</h2>
+<pre>
+<code>
+This is an example
+Log Output
+
+Exit code 0.
+</code>
+</pre>
+<% if @visible %>
+<form action="/projects/new/"> 
+    <input type="submit" class="btn btn-primary" value="Is Visible"/>
+</form>
+<% end %>
+<% if !@editable %>
+<form action="/projects/<% params[:id] %>/edit/"> 
+    <input type="submit" class="btn btn-primary" value="Edit project"/>
+</form>
+<% end %>

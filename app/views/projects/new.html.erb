@@ -1,0 +1,41 @@
+<h1>New Project</h1>
+
+<%= form_with model: @project do |form| %>
+    <div>
+        <%= form.label :name %><br>
+        <% @project.errors.full_messages_for(:name).each do |message| %>
+            <div><%= message %></div>
+        <% end %>
+        <%= form.text_field :name %>
+        <% if !@valid_name %>
+            <span class="badge bg-danger">"Name" can't be empty!</span>
+        <% end %>
+        <% if @valid_name && !@unique_name %>
+            <span class="badge bg-danger">You already own a project with this name!</span>
+        <% end %>
+    </div>
+
+    <div>
+        <%= form.label :repo %><br>
+        <% @project.errors.full_messages_for(:repo).each do |message| %>
+            <div><%= message %></div>
+        <% end %>
+        <%= form.text_field :repo %>
+        <% if !@valid_repo %>
+            <span class="badge bg-danger">"Repo" needs to contain a valid URL!</span>
+        <% end %>
+    </div>
+
+    <div>
+        <%= form.label :public %>
+        <% @project.errors.full_messages_for(:public).each do |message| %>
+            <div><%= message %></div>
+        <% end %>
+        <%= form.check_box :public %>
+    </div>
+
+    <div>
+        <%= form.submit %>
+    </div>
+
+<% end %>
