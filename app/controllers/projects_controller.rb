@@ -8,13 +8,13 @@ class ProjectsController < ApplicationController
 
     def show
         @project = Project.find(params[:id])
-        # If the 
+        # If the project exists and is either publicly visible or created by the currently logged in user.
         @visible = @project && (@project.public == true || User.find_by_id(@project.creator).email == current_user.email)
         @editable = User.find_by_id(@project.creator).email == current_user.email
         if @visible
-            render 'overview'
+            render "overview"
         else
-            render 'notfound'
+            render "notfound"
         end
     end
 
@@ -23,15 +23,13 @@ class ProjectsController < ApplicationController
     end
 
     def destroy
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
         @project = Project.find(params[:id])
-        @project.destroy
-        redirect_to :index, status: :see_other
+        if User.find_by_id(@project.creator).email == current_user.email
+            @project.destroy
+            redirect_to "/", status: :see_other
+        else
+            redirect_to "notfound"
+        end
     end
 
     def create

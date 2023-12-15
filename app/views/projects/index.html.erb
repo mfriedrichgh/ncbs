@@ -24,7 +24,7 @@
                             <li><a class="dropdown-item" href="#">Binaries</a></li>
                             <li><a class="dropdown-item" href="#">Show Logs</a></li>
                             <li><a class="dropdown-item" href="#">Trigger Rebuild</a></li>
-                            <li><%= link_to("Delete Repository", project_path(project), data: { turbo_method: :delete }, class: "dropdown-item") %></li>
+                            <li><%= link_to("Delete Repository", "/projects/#{project.id}/delete", class: "btn btn-danger") %></li>
                         </ul>
                     </div>
                 </td>
