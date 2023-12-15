@@ -1,0 +1,23 @@
+name: Lint Ruby code
+
+# Running on the branch master and on all PRs
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  lint_rubocop:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - name: Lint Ruby code, failing on offenses with a severity "convention" or worse # RuboCop's cop severity: https://docs.rubocop.org/rubocop/configuration.html#severity
+        run: bundle exec rubocop --display-style-guide --fail-level convention --parallel
