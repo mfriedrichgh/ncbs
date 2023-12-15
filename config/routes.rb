@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   
   # Defines the root path route ("/")
   root "projects#index"
+
+  get "projects/:id/delete" => "projects#destroy"
+
   # get '*path' => "errors#not_found"
   get "/404" => "errors#not_found"
   get "/500" => "errors#internal_server_error"
