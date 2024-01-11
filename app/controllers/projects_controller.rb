@@ -6,6 +6,10 @@ class ProjectsController < ApplicationController
         @projects = Project.all
     end
 
+    def new
+        @project = Project.new
+    end
+
     def show
         @project = Project.find(params[:id])
         # If the 
@@ -14,12 +18,20 @@ class ProjectsController < ApplicationController
         if @visible
             render 'overview'
         else
-            render 'notfound'
+            render "index"
         end
     end
 
-    def new
-        @project = Project.new
+    def binaries
+        @project = Project.find(params[:id])
+        # If the project exists and is either publicly visible or created by the currently logged in user.
+        @visible = @project && (@project.public == true || User.find_by_id(@project.creator).email == current_user.email)
+        @editable = User.find_by_id(@project.creator).email == current_user.email
+        if @visible
+            render "binaries"
+        else
+            render "index"
+        end
     end
 
     def destroy
@@ -30,8 +42,12 @@ class ProjectsController < ApplicationController
         puts "ATTEMPTED TO DESTROY"
         puts "ATTEMPTED TO DESTROY"
         @project = Project.find(params[:id])
-        @project.destroy
-        redirect_to :index, status: :see_other
+        if User.find_by_id(@project.creator).email == current_user.email
+            @project.destroy
+            redirect_to "/", status: :see_other
+        else
+            render "overview"
+        end
     end
 
     def create

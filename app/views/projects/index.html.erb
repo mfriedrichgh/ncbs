@@ -11,7 +11,7 @@
         <% @projects.each do |project| %>
         <% if project.public == true || User.find_by_id(project.creator).email == current_user.email %>
             <tr>
-                <td><% if !project.public %>(Private)<% end %> <%= project.name %></td>
+                <td><% if !project.public %>(Private) <% end %><a href="/projects/<%= project.id %>"><%= project.name %></a></td>
                 <td><%= User.find_by_id(project.creator).email %></td>
                 <td><span class="badge bg-success">Done</span></td>
                 <td>
@@ -21,10 +21,12 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/projects/<%= project.id %>">Project Page</a></li>
                             <li><a class="dropdown-item" href="<%= project.repo %>">Source Code</a></li>
-                            <li><a class="dropdown-item" href="#">Binaries</a></li>
+                            <li><a class="dropdown-item" href="/projects/<%= project.id %>/bin">Binaries</a></li>
                             <li><a class="dropdown-item" href="#">Show Logs</a></li>
                             <li><a class="dropdown-item" href="#">Trigger Rebuild</a></li>
-                            <li><%= link_to("Delete Repository", project_path(project), data: { turbo_method: :delete }, class: "dropdown-item") %></li>
+                            <% if User.find_by_id(project.creator).email == current_user.email %>
+                                <li><%= link_to("Delete Repository", "/projects/#{project.id}/delete", class: "btn btn-danger") %></li>
+                            <% end %>
                         </ul>
                     </div>
                 </td>
