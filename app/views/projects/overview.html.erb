@@ -26,11 +26,6 @@ Log Output
 Exit code 0.
 </code>
 </pre>
-<% if @visible %>
-<form action="/projects/new/"> 
-    <input type="submit" class="btn btn-primary" value="Is Visible"/>
-</form>
-<% end %>
 <% if !@editable %>
 <form action="/projects/<% params[:id] %>/edit/"> 
     <input type="submit" class="btn btn-primary" value="Edit project"/>

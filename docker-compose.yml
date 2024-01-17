@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.9"
 services:
   db:
     image: postgres
@@ -8,6 +8,14 @@ services:
       - POSTGRES_USER=postgres
     volumes:
       - db:/var/lib/postgresql/data
+
+  backend:
+    container_name: backend
+    build: ./backend
+    ports:
+      - '3007:8080'
+    depends_on:
+      - db
 
   web:
     build:
@@ -25,6 +33,7 @@ services:
       - DB_HOST=db
     depends_on:
       - db
+      - backend
 
 volumes:
   db:

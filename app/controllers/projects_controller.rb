@@ -1,4 +1,5 @@
 require 'uri'
+require 'net/http'
 
 class ProjectsController < ApplicationController
     before_action :authenticate_user!
@@ -12,7 +13,7 @@ class ProjectsController < ApplicationController
 
     def show
         @project = Project.find(params[:id])
-        # If the 
+        # If the project is visible to the current user, either by being public or owned by the current user.
         @visible = @project && (@project.public == true || User.find_by_id(@project.creator).email == current_user.email)
         @editable = User.find_by_id(@project.creator).email == current_user.email
         if @visible
@@ -35,12 +36,6 @@ class ProjectsController < ApplicationController
     end
 
     def destroy
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
-        puts "ATTEMPTED TO DESTROY"
         @project = Project.find(params[:id])
         if User.find_by_id(@project.creator).email == current_user.email
             @project.destroy
@@ -62,6 +57,13 @@ class ProjectsController < ApplicationController
         @valid_repo = valid_url?(project_params[:repo])
 
         if @unique_name && @valid_repo && @valid_name && @project.save
+            url = URI.parse('http://backend:8080/clone/' + @project.id.to_s)
+            req = Net::HTTP::Get.new(url.to_s)
+            res = Net::HTTP.start(url.host, url.port) {|http|
+                http.request(req)
+            }
+            puts ".........................."
+            puts res.body
             redirect_to @project
         else
             render :new, status: :unprocessable_entity

@@ -76,4 +76,7 @@ Rails.application.configure do
 
   # Devise
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # Backend communication inside the container
+  config.hosts << "ncbs-web-1:3000"
 end
