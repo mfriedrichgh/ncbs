@@ -13,7 +13,20 @@
             <td><%= User.find_by_id(@project.creator).email %></td>
             <td><a target="_blank" rel="noopener noreferrer" href="<%= @project.repo %>"><%= @project.repo %></a></td>
             <td><% if !@project.public %>Private<% else %>Public<% end %></td>
-            <td><span class="badge bg-success">Done</span></td>
+            <td>
+                <%=
+                    url = URI.parse('http://backend:8080/status/' + @project.id.to_s)
+                    req = Net::HTTP::Get.new(url.to_s)
+                    res = Net::HTTP.start(url.host, url.port) {|http|
+                        http.request(req)
+                    } 
+                    body = res.body if res.is_a?(Net::HTTPSuccess)
+                    if body == "Finished" 
+                        render inline: '<span class="badge bg-success">' + body + '</span>'
+                    else
+                        render inline: '<span class="badge bg-danger">' + body + '</span>'
+                    end
+                %></td>
         </tr>
     </tbody>
 </table>
