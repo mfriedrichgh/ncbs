@@ -3,8 +3,10 @@ FROM rust:slim
 WORKDIR /usr/src/backend
 COPY . .
 
-RUN apt-get update && apt-get upgrade
+RUN apt-get update
 RUN apt-get install git -y
+
+RUN rustup install nightly
 
 RUN cargo install --path .
 

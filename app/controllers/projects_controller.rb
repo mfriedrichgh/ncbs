@@ -58,12 +58,10 @@ class ProjectsController < ApplicationController
 
         if @unique_name && @valid_repo && @valid_name && @project.save
             url = URI.parse('http://backend:8080/clone/' + @project.id.to_s)
-            req = Net::HTTP::Get.new(url.to_s)
+            req = Net::HTTP::Post.new(url.to_s)
             res = Net::HTTP.start(url.host, url.port) {|http|
                 http.request(req)
             }
-            puts ".........................."
-            puts res.body
             redirect_to @project
         else
             render :new, status: :unprocessable_entity
