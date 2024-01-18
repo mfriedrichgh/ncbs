@@ -29,9 +29,18 @@ class ProjectsController < ApplicationController
         @visible = @project && (@project.public == true || User.find_by_id(@project.creator).email == current_user.email)
         @editable = User.find_by_id(@project.creator).email == current_user.email
         if @visible
-            render "binaries"
+            # Download the project.
+            url = URI.parse('http://backend:8080/download/' + @project.id.to_s)
+            req = Net::HTTP::Get.new(url.to_s)
+            res = Net::HTTP.start(url.host, url.port) { |http|
+                http.request(req)
+            }
+            body = res.body if res.is_a?(Net::HTTPSuccess)
+            send_data body,
+            :filename => @project.name + ".tar.gz",
+            :type => "application/gzip"
         else
-            render "index"
+            redirect_to "#"
         end
     end
 
@@ -43,6 +52,21 @@ class ProjectsController < ApplicationController
         else
             render "overview"
         end
+    end
+    
+    def rebuild
+        @project = Project.find(params[:id])
+        if User.find_by_id(@project.creator).email == current_user.email
+            # Rebuild the project
+            url = URI.parse('http://backend:8080/build/' + @project.id.to_s)
+            req = Net::HTTP::Get.new(url.to_s)
+            res = Net::HTTP.start(url.host, url.port) {|http|
+                http.request(req)
+            }
+        else
+            puts "no auth to rebuild"
+        end
+        redirect_to "#"
     end
 
     def create

@@ -13,7 +13,20 @@
             <tr>
                 <td><% if !project.public %>(Private) <% end %><a href="/projects/<%= project.id %>"><%= project.name %></a></td>
                 <td><%= User.find_by_id(project.creator).email %></td>
-                <td><span class="badge bg-success">Done</span></td>
+                <td>
+                <%=
+                    url = URI.parse('http://backend:8080/status/' + project.id.to_s)
+                    req = Net::HTTP::Get.new(url.to_s)
+                    res = Net::HTTP.start(url.host, url.port) {|http|
+                        http.request(req)
+                    } 
+                    body = res.body if res.is_a?(Net::HTTPSuccess)
+                    if body == "Finished" 
+                        render inline: '<span class="badge bg-success">' + body + '</span>'
+                    else
+                        render inline: '<span class="badge bg-danger">' + body + '</span>'
+                    end
+                %></td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
@@ -23,9 +36,9 @@
                             <li><a class="dropdown-item" href="<%= project.repo %>">Source Code</a></li>
                             <li><a class="dropdown-item" href="/projects/<%= project.id %>/bin">Binaries</a></li>
                             <li><a class="dropdown-item" href="#">Show Logs</a></li>
-                            <li><a class="dropdown-item" href="#">Trigger Rebuild</a></li>
                             <% if User.find_by_id(project.creator).email == current_user.email %>
-                                <li><%= link_to("Delete Repository", "/projects/#{project.id}/delete", class: "btn btn-danger") %></li>
+                                <li><a class="dropdown-item" href="/projects/<%= project.id %>/rebuild">Trigger Rebuild</a></li>
+                                <li><%= link_to("Delete Repository", "/projects/#{project.id}/delete", class: "dropdown-item") %></li>
                             <% end %>
                         </ul>
                     </div>

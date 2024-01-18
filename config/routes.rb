@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   root "projects#index"
 
   get "projects/:id/delete" => "projects#destroy"
+  get "projects/:id/rebuild" => "projects#rebuild"
   get "projects/:id/bin" => "projects#binaries"
 
   # get '*path' => "errors#not_found"

@@ -25,6 +25,8 @@ async fn root() -> &'static str {
 async fn build(Path(id): Path<i64>) -> StatusCode {
     println!("Building {}", id);
     let build_path = PathBuf::from("build").join(id.to_string());
+    _ = std::fs::remove_dir_all(&build_path);
+    // Create a folder for the project.
     let toml_path = PathBuf::from("repos").join(id.to_string()).join("Cargo.toml");
     // Build the project.
     let cargo_args = [
@@ -38,12 +40,24 @@ async fn build(Path(id): Path<i64>) -> StatusCode {
         "--out-dir",
         &build_path.to_string_lossy(),
     ];
-    _ = Command::new("cargo").args(&cargo_args).status().unwrap();
-    StatusCode::OK
+    // Make sure the files have been cloned properly.
+    if Command::new("cargo").args(&cargo_args).status().unwrap().success() {
+        return StatusCode::OK;
+    }
+    clone(axum::extract::Path(id)).await;
+    return StatusCode::OK;
 }
 
 async fn status(Path(id): Path<i64>) -> String {
-    "done".to_owned()
+    if std::path::Path::exists(&PathBuf::from("build").join(id.to_string())) {
+        "Finished".to_owned()
+    }
+    else if !std::path::Path::exists(&PathBuf::from("repos").join(id.to_string())) {
+        "Not cloned".to_owned()
+    }
+    else {
+        "Not built".to_owned()
+    }
 }
 
 async fn download(Path(id): Path<i64>) -> Vec<u8> {
@@ -57,7 +71,9 @@ async fn download(Path(id): Path<i64>) -> Vec<u8> {
         &build_path.to_string_lossy(),
     ];
     _ = Command::new("tar").args(&tar_args).status().unwrap();
-    std::fs::read(&output_path).unwrap()
+    let bytes = std::fs::read(&output_path).unwrap();
+    _ = std::fs::remove_file(output_path);
+    return bytes;
 }
 
 /// Clones a Git project to the local space.
